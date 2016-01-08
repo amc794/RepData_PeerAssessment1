@@ -7,8 +7,8 @@ output:
 
 This repository is forked/cloned from a github [page][http://github.com/rdpeng/RepData_PeerAssessment1] created for this project. A local version-controlled directory is created using the forked repository url.
 
-```{r setoptions, echo=FALSE}
-knitr::opts_chunk$set(echo=TRUE)
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 ```
 
 ```{r}
@@ -36,7 +36,7 @@ activity$weekday <- lubridate::wday(activity$date,label=TRUE,abbr=TRUE)
 ```
 For some scoping reasons I am not sure of, I have to prefix the call to **wday** to make it work.
 
-```{r warning=FALSE}
+```{r}
 ## What is mean total number of steps taken per day?
 DailySteps <- tapply(activity$steps, activity$date, sum)
 qplot(DailySteps, geom="histogram") +
@@ -60,9 +60,9 @@ ggplot(interval_ave,aes(interval,AverageSteps))+geom_path() +
 ```
 
 ```{r}
-## interval has the maximum average number of steps?
+## interval with the maximum average number of steps?
 ID <- which.max(interval_ave$AverageSteps)
-interval_ave[ID,]
+interval_ave[ID,1]
 ```
 Interval `r interval_ave[ID,]` has the highest number of steps averaged across all days.  
 
@@ -99,7 +99,9 @@ ggplot(means.int, aes(interval, steps)) + geom_line() +
     facet_grid(weekday ~ .) +
     labs(x="Interval", y="Steps", title="Average steps per interval")
 ```
+
 We are on the right track. If you replace missing data with the medians, and check the variation above like we just did, you will agree that the mean is a better option(it has more variability). Time to impute the means!  
+
 ```{r}
 # Subset the complete and incomplete cases
 ID <- complete.cases(activity)
@@ -136,4 +138,5 @@ ggplot(imputed.means, aes(interval, mean)) + geom_line() +
         facet_grid(DayType ~ .) + labs(x="Interval", y="Steps",
                                        title="Activity by type of day")
 ```
+
 They have similar trends: flattened at both tails, probably in the night/early morning.

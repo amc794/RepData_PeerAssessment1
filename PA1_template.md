@@ -50,11 +50,7 @@ qplot(DailySteps, geom="histogram") +
          title="Histogram of total steps per day")
 ```
 
-```
-## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
-```
-
-![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png)\
 
 
 ```r
@@ -72,21 +68,21 @@ ggplot(interval_ave,aes(interval,AverageSteps))+geom_path() +
     labs(title="Average no. of Steps by 5-minute Time Interval", x="Interval")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png)\
 
 
 ```r
-## interval has the maximum average number of steps?
+## interval with the maximum average number of steps?
 ID <- which.max(interval_ave$AverageSteps)
-interval_ave[ID,]
+interval_ave[ID,1]
 ```
 
 ```
-## Source: local data frame [1 x 2]
+## Source: local data frame [1 x 1]
 ## 
-##   interval AverageSteps
-##      (int)        (dbl)
-## 1      835     206.1698
+##   interval
+##      (int)
+## 1      835
 ```
 Interval 835, 206.1698113 has the highest number of steps averaged across all days.  
 
@@ -145,8 +141,10 @@ ggplot(means.int, aes(interval, steps)) + geom_line() +
     labs(x="Interval", y="Steps", title="Average steps per interval")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-10-1.png)\
+
 We are on the right track. If you replace missing data with the medians, and check the variation above like we just did, you will agree that the mean is a better option(it has more variability). Time to impute the means!  
+
 
 ```r
 # Subset the complete and incomplete cases
@@ -187,5 +185,6 @@ ggplot(imputed.means, aes(interval, mean)) + geom_line() +
                                        title="Activity by type of day")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-13-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-13-1.png)\
+
 They have similar trends: flattened at both tails, probably in the night/early morning.
